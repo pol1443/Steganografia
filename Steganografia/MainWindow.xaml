@@ -5,8 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Steganografia"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="497" Width="826">
+    <TabControl Margin="0,0,0,-41">
+        <TabItem Header="TabItem">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="197*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Wybierz Zdjecie" Name="przyciskWybierzZdjecie" Click="przyciskWybierzZdjecie_Click" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Width="114" FontSize="14" Grid.ColumnSpan="2"/>
+                <Label Content="" Name="tabelaSciezkaZdjecia" HorizontalAlignment="Left" Margin="177,10,0,0" VerticalAlignment="Top" Height="25" Width="584" FontSize="14" Grid.Column="1"/>
+                <Label Content="Scieżka:" HorizontalAlignment="Left" Margin="124,10,0,0" VerticalAlignment="Top" Height="25" Width="58" FontSize="14" Grid.Column="1"/>
+                <TextBox Name="tekstDoZakodowania" HorizontalAlignment="Right" Margin="0,40,10,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="641" Height="362" TextChanged="tekstDoZakodowania_TextChanged" Grid.Column="1"/>
+                <Label Content="Max ilosc znaków:" HorizontalAlignment="Left" Margin="129,402,0,0" VerticalAlignment="Top" Width="107" Grid.Column="1"/>
+                <Label Name="maxZaki" Content="" HorizontalAlignment="Left" Margin="231,402,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                <Label Content="Użyte znaki:" HorizontalAlignment="Left" Margin="331,402,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1"/>
+                <Label Name="uzyteZnaki" Content="" HorizontalAlignment="Left" Margin="406,402,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                <Button Content="Koduj tekst" Name="przyciskKodujTekst" Click="przyciskKodujTekst_Click"  HorizontalAlignment="Left" Margin="10,58,0,0" VerticalAlignment="Top" Height="30" Width="114" FontSize="14" Grid.ColumnSpan="2"/>
+                <Label Content="Ilu kolorów użyć:" HorizontalAlignment="Left" Margin="10,93,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="114"/>
+                <ComboBox Name="comboBoxIleKolorow" HorizontalAlignment="Left" Margin="10,117,0,0" VerticalAlignment="Top" Width="114" Grid.ColumnSpan="2" SelectionChanged="ComboBox_SelectionChanged" >
+                    <ComboBoxItem IsSelected="True">R</ComboBoxItem>
+                    <ComboBoxItem>RG</ComboBoxItem>
+                    <ComboBoxItem>RGB</ComboBoxItem>
+                </ComboBox>
+                
 
-    </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="TabItem">
+            <Grid Background="#FFE5E5E5"/>
+        </TabItem>
+    </TabControl>
 </Window>
