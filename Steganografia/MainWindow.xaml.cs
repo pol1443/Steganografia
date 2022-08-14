@@ -29,7 +29,10 @@ namespace Steganografia
         int wartoscR;
         int wartoscG;
         int wartoscB;
-        byte[] tablicaBitow;
+        byte[] tablicaBitowTekst;
+        byte[] tablicaBitowTekstZZerami;
+        byte[] tablicaBitowHaslo;
+        byte[] tablicaBitowHasloZZerami;
         string tekstBinarnie;
         string wybranyKolorKodowanie;
         string wybranyKolorRozkodowanie;
@@ -42,11 +45,15 @@ namespace Steganografia
         string znakBinarnie = "";
         byte[] tekstRozkodowanyWBajtach;
         string rozkodowanyTekst = "";
+        string zaszyfrowanyTekst = "";
+        string rozszyfrowanyTekst = "";
+        byte[] tekstZaszyfrowanyWBajtach;
+        byte[] tekstRoszyfrowanyWBajtach;
 
 
         OpenFileDialog openFileDlg = new OpenFileDialog();
         SaveFileDialog savedialog = new SaveFileDialog();
-        UTF8Encoding utf8 = new UTF8Encoding();
+        UnicodeEncoding unicode = new UnicodeEncoding();
 
         public MainWindow()
         {
@@ -100,10 +107,10 @@ namespace Steganografia
 
             licznik = 0;
             zdjecieZInformacjami = new Bitmap(zdjecieWybraneKodowanie.Width, zdjecieWybraneKodowanie.Height);
-            tablicaBitow = Encoding.UTF8.GetBytes(tekstDoZakodowania.Text + koniecTekstu);
-            tekstBinarnie = string.Join("", tablicaBitow.Select(bit => Convert.ToString(bit, 2).PadLeft(8, '0')));
+            tablicaBitowTekst = Encoding.Unicode.GetBytes(tekstDoZakodowania.Text + koniecTekstu);
+
+            tekstBinarnie = string.Join("", tablicaBitowTekst.Where(bit => bit != 0).Select(bit => Convert.ToString(bit, 2).PadLeft(8, '0')));
             string pom = "";
-            int pomInt;
             switch (wybranyKolorKodowanie)
             {
                 case "R":
@@ -423,7 +430,7 @@ namespace Steganografia
             znakBinarnie = "";
             licznik = 0;
             licznik2 = 0;
-            tekstRozkodowanyWBajtach = new byte[zdjecieWybraneRozkodowanie.Height * zdjecieWybraneRozkodowanie.Width];
+            tekstRozkodowanyWBajtach = new byte[zdjecieWybraneRozkodowanie.Height * zdjecieWybraneRozkodowanie.Width*2];
 
             switch (wybranyKolorRozkodowanie)
             {
@@ -447,8 +454,9 @@ namespace Steganografia
                             if (licznik == 8)
                             {
                                 tekstRozkodowanyWBajtach[licznik2] = Convert.ToByte(znakBinarnie, 2);
+                                tekstRozkodowanyWBajtach[licznik2+1] = 0;
                                 licznik = 0;
-                                licznik2++;
+                                licznik2 += 2;
                                 znakBinarnie = "";
                             }
 
@@ -476,8 +484,9 @@ namespace Steganografia
                             if (licznik == 8)
                             {
                                 tekstRozkodowanyWBajtach[licznik2] = Convert.ToByte(znakBinarnie, 2);
+                                tekstRozkodowanyWBajtach[licznik2 + 1] = 0;
                                 licznik = 0;
-                                licznik2++;
+                                licznik2 += 2;
                                 znakBinarnie = "";
                             }
 
@@ -494,8 +503,9 @@ namespace Steganografia
                             if (licznik == 8)
                             {
                                 tekstRozkodowanyWBajtach[licznik2] = Convert.ToByte(znakBinarnie, 2);
+                                tekstRozkodowanyWBajtach[licznik2 + 1] = 0;
                                 licznik = 0;
-                                licznik2++;
+                                licznik2 += 2;
                                 znakBinarnie = "";
                             }
                         }
@@ -522,8 +532,9 @@ namespace Steganografia
                             if (licznik == 8)
                             {
                                 tekstRozkodowanyWBajtach[licznik2] = Convert.ToByte(znakBinarnie, 2);
+                                tekstRozkodowanyWBajtach[licznik2 + 1] = 0;
                                 licznik = 0;
-                                licznik2++;
+                                licznik2 += 2;
                                 znakBinarnie = "";
                             }
 
@@ -540,8 +551,9 @@ namespace Steganografia
                             if (licznik == 8)
                             {
                                 tekstRozkodowanyWBajtach[licznik2] = Convert.ToByte(znakBinarnie, 2);
+                                tekstRozkodowanyWBajtach[licznik2 + 1] = 0;
                                 licznik = 0;
-                                licznik2++;
+                                licznik2 += 2;
                                 znakBinarnie = "";
                             }
 
@@ -558,8 +570,9 @@ namespace Steganografia
                             if (licznik == 8)
                             {
                                 tekstRozkodowanyWBajtach[licznik2] = Convert.ToByte(znakBinarnie, 2);
+                                tekstRozkodowanyWBajtach[licznik2 + 1] = 0;
                                 licznik = 0;
-                                licznik2++;
+                                licznik2 += 2;
                                 znakBinarnie = "";
                             }
                         }
@@ -567,22 +580,17 @@ namespace Steganografia
                     break;
 
             }
-            
 
-
-
-
-
-            rozkodowanyTekst = utf8.GetString(tekstRozkodowanyWBajtach);
-            tekstRozkodowany.Content = "";
+            rozkodowanyTekst = unicode.GetString(tekstRozkodowanyWBajtach);
+            tekstRozkodowany.Text = "";
 
             if (rozkodowanyTekst.IndexOf(koniecTekstu) != -1)
             {
-                tekstRozkodowany.Content = rozkodowanyTekst.Substring(0, rozkodowanyTekst.IndexOf(koniecTekstu));
+                tekstRozkodowany.Text = rozkodowanyTekst.Substring(0, rozkodowanyTekst.IndexOf(koniecTekstu));
             }
             else
             {
-                tekstRozkodowany.Content = rozkodowanyTekst;
+                tekstRozkodowany.Text = rozkodowanyTekst;
             }
         }
 
@@ -598,6 +606,166 @@ namespace Steganografia
                 wybranyKolorRozkodowanie = "R";
             }
             
+        }
+
+        private void Szyfruj_Click(object sender, RoutedEventArgs e)
+        {
+            if (tekstDoZakodowania.Text == "")
+            {
+                MessageBox.Show("Brak tekstu do zaszyfrowania", "Brak tekstu", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (textBoxHasloSzyfruj.Text == "")
+            {
+                MessageBox.Show("Brak hasła do szyfrowania", "Brak hasła", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+
+
+
+
+            tablicaBitowTekstZZerami = Encoding.Unicode.GetBytes(tekstDoZakodowania.Text);
+            tablicaBitowHasloZZerami = Encoding.Unicode.GetBytes(textBoxHasloSzyfruj.Text);
+
+            tablicaBitowTekst = new byte[tablicaBitowTekstZZerami.Length / 2];
+            tablicaBitowHaslo = new byte[tablicaBitowHasloZZerami.Length / 2];
+
+            int pom = 0;
+
+            for (int i = 0; i < tablicaBitowTekstZZerami.Length; i+=2)
+            {
+                tablicaBitowTekst[i/2] = tablicaBitowTekstZZerami[i];
+            }
+            for (int i = 0; i < tablicaBitowHasloZZerami.Length; i += 2)
+            {
+                tablicaBitowHaslo[i / 2] = tablicaBitowHasloZZerami[i];
+            }
+
+            tekstZaszyfrowanyWBajtach = new byte[tablicaBitowTekst.Length];
+            if (tablicaBitowHaslo.Length == 1)
+            {
+
+                for (int i = 0; i < tablicaBitowTekst.Length; i++)
+                {
+                    pom = (tablicaBitowTekst[i] + tablicaBitowHaslo[0]) % 255;
+                    if (pom < 33)
+                    {
+                        pom = pom + 32;
+                    }
+                    tekstZaszyfrowanyWBajtach[i] = (byte)pom;
+                }
+            }
+            else
+            {
+                licznik = 0;
+                for(int i = 0; i < tablicaBitowTekst.Length; i++)
+                {
+                    pom = (tablicaBitowTekst[i] + tablicaBitowHaslo[licznik]) % 255;
+                if (pom < 33)
+                    {
+                        pom = pom + 32;
+                    }
+                    
+                    tekstZaszyfrowanyWBajtach[i] = (byte)pom;
+                    licznik++;
+                    if (licznik == tablicaBitowHaslo.Length)
+                    {
+                        licznik = 0;
+                    }
+                }
+            }
+            for (int i = 0; i < tablicaBitowTekstZZerami.Length; i += 2)
+            {
+                tablicaBitowTekstZZerami[i] = tekstZaszyfrowanyWBajtach[i / 2];
+            }
+
+            zaszyfrowanyTekst = unicode.GetString(tablicaBitowTekstZZerami);
+            tekstDoZakodowania.Text = zaszyfrowanyTekst;
+
+        }
+
+        private void Rozszyfruj_Click(object sender, RoutedEventArgs e)
+        {
+            if (tekstRozkodowany.Text == "")
+            {
+                MessageBox.Show("Brak tekstu do rozszyfrowania", "Brak tekstu", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (textBoxHasloRozszyfruj.Text == "")
+            {
+                MessageBox.Show("Brak hasła do rozszyfrowania", "Brak hasła", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            tablicaBitowTekstZZerami = Encoding.Unicode.GetBytes(tekstRozkodowany.Text);
+            tablicaBitowHasloZZerami = Encoding.Unicode.GetBytes(textBoxHasloRozszyfruj.Text);
+
+            tablicaBitowTekst = new byte[tablicaBitowTekstZZerami.Length / 2];
+            tablicaBitowHaslo = new byte[tablicaBitowHasloZZerami.Length / 2];
+
+            int pom = 0;
+
+            for (int i = 0; i < tablicaBitowTekstZZerami.Length; i += 2)
+            {
+                tablicaBitowTekst[i / 2] = tablicaBitowTekstZZerami[i];
+            }
+            for (int i = 0; i < tablicaBitowHasloZZerami.Length; i += 2)
+            {
+                tablicaBitowHaslo[i / 2] = tablicaBitowHasloZZerami[i];
+            }
+
+            tekstRoszyfrowanyWBajtach = new byte[tablicaBitowTekst.Length];
+            if (tablicaBitowHaslo.Length == 1)
+            {
+
+                for (int i = 0; i < tablicaBitowTekst.Length; i++)
+                {
+                    pom = tablicaBitowTekst[i] - tablicaBitowHaslo[0];
+                    if (pom < 0 && pom > -33) 
+                    {
+                        pom = 255 + pom - 32;
+                    }
+                    else if(pom < -33)
+                    {
+                        pom = 255 + pom;
+                    }
+                    tekstRoszyfrowanyWBajtach[i] = (byte)pom;
+                }
+            }
+            else
+            {
+                licznik = 0;
+                for (int i = 0; i < tablicaBitowTekst.Length; i++)
+                {
+                    pom = tablicaBitowTekst[i] - tablicaBitowHaslo[licznik];
+                    if (pom < 0 && pom > -33)
+                    {
+                        pom = 255 + pom - 32;
+                    }
+                    else if (pom < -33)
+                    {
+                        pom = 255 + pom;
+                    }
+                    tekstRoszyfrowanyWBajtach[i] = (byte)pom;
+
+                    licznik++;
+                    if (licznik == tablicaBitowHaslo.Length)
+                    {
+                        licznik = 0;
+                    }
+                }
+            }
+
+            for (int i = 0; i < tablicaBitowTekstZZerami.Length; i += 2)
+            {
+                tablicaBitowTekstZZerami[i] = tekstRoszyfrowanyWBajtach[i / 2];
+            }
+
+            rozszyfrowanyTekst = unicode.GetString(tablicaBitowTekstZZerami);
+            tekstRozkodowany.Text = rozszyfrowanyTekst;
+
+
         }
     }
 

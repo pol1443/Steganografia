@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="497" Width="826">
     <TabControl Margin="0,0,0,-41">
-        <TabItem Header="TabItem">
+        <TabItem Header="Kodowanie">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="17*"/>
@@ -16,7 +16,7 @@
                 <Button Content="Wybierz Zdjecie" Name="przyciskWybierzZdjecie" Click="przyciskWybierzZdjecie_Click" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Height="30" Width="114" FontSize="14" Grid.Column="1"/>
                 <Label Content="" Name="tabelaSciezkaZdjecia" HorizontalAlignment="Left" Margin="177,10,0,0" VerticalAlignment="Top" Height="25" Width="584" FontSize="14" Grid.Column="1"/>
                 <Label Content="Scieżka:" HorizontalAlignment="Left" Margin="124,10,0,0" VerticalAlignment="Top" Height="25" Width="58" FontSize="14" Grid.Column="1"/>
-                <TextBox Name="tekstDoZakodowania" HorizontalAlignment="Right" Margin="0,40,10,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="641" Height="362" TextChanged="tekstDoZakodowania_TextChanged" Grid.Column="1"/>
+                <TextBox Name="tekstDoZakodowania" HorizontalAlignment="Right" Margin="0,40,10,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="641" Height="362" TextChanged="tekstDoZakodowania_TextChanged" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
                 <Label Content="Max ilosc znaków:" HorizontalAlignment="Left" Margin="129,402,0,0" VerticalAlignment="Top" Width="107" Grid.Column="1" Height="26"/>
                 <Label Name="maxZaki" Content="" HorizontalAlignment="Left" Margin="231,402,0,0" VerticalAlignment="Top" Grid.Column="1" Height="26" Width="95"/>
                 <Label Content="Użyte znaki:" HorizontalAlignment="Left" Margin="331,402,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Height="26"/>
@@ -28,16 +28,18 @@
                     <ComboBoxItem>RG</ComboBoxItem>
                     <ComboBoxItem>RGB</ComboBoxItem>
                 </ComboBox>
+                <Button Content="Szyfruj hasłem" Click="Szyfruj_Click" Grid.Column="1" HorizontalAlignment="Left" Margin="0,189,0,0" VerticalAlignment="Top" Height="30" Width="114"/>
+                <TextBox Name="textBoxHasloSzyfruj" Grid.Column="1" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="114" Height="130" Margin="0,247,0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
 
 
             </Grid>
         </TabItem>
-        <TabItem Header="TabItem">
+        <TabItem Header="Rozkodowywanie">
             <Grid>
                 <Button Content="Wybierz Zdjecie" x:Name="przyciskWybierzZdjecieRozkodowanie" Click="przyciskWybierzZdjecieRozkodowanie_Click" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Width="114" FontSize="14"/>
                 <Label Content="" x:Name="tabelaSciezkaZdjeciaRozkodowanie" HorizontalAlignment="Left" Margin="209,10,0,0" VerticalAlignment="Top" Height="25" Width="584" FontSize="14"/>
                 <Label Content="Scieżka:" HorizontalAlignment="Left" Margin="156,10,0,0" VerticalAlignment="Top" Height="25" Width="58" FontSize="14"/>
-                <Label  Name="tekstRozkodowany" HorizontalAlignment="Right" Margin="0,40,27,0" VerticalAlignment="Top" Width="624" Height="362"/>
+                <TextBox  Name="tekstRozkodowany" HorizontalAlignment="Right" Margin="0,40,27,0" VerticalAlignment="Top" Width="624" Height="362"/>
                 <Button Content="Rozkoduj tekst" Name="przyciskRozkodowanieTekst" Click="przyciskRozkodowanieTekst_Click"  HorizontalAlignment="Left" Margin="10,58,0,0" VerticalAlignment="Top" Height="30" Width="114" FontSize="14"/>
                 <Label Content="Ilu kolorów użyć:" HorizontalAlignment="Left" Margin="10,93,0,0" VerticalAlignment="Top" Width="114"/>
                 <ComboBox x:Name="comboBoxIleKolorowRozkodowanie" HorizontalAlignment="Left" Margin="10,117,0,0" VerticalAlignment="Top" Width="114" SelectionChanged="comboBoxIleKolorowRozkodowanie_SelectionChanged" >
@@ -45,6 +47,8 @@
                     <ComboBoxItem Content="RG"/>
                     <ComboBoxItem Content="RGB"/>
                 </ComboBox>
+                <Button Content="Rozszyfruj" Click="Rozszyfruj_Click" HorizontalAlignment="Left" Margin="17,206,0,0" VerticalAlignment="Top" Height="30" Width="114"/>
+                <TextBox x:Name="textBoxHasloRozszyfruj" HorizontalAlignment="Left" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="114" Height="130" Margin="17,247,0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
             </Grid>
         </TabItem>
     </TabControl>
